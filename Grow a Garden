@@ -1,1 +1,123 @@
-Ofuscado (Base64 -> decodifica y ejecuta)local _S = "bG9jYWwgUmF5ZmllbGQgPSBsb2Fkc3RyaW5nKGdhbWU6SHR0cEdldCgnaHR0cHM6Ly9zaXJpdXMubWVudS9yYXlmaWVsZCcsIHRydWUpKSgpCmxvY2FsIFc9UmF5ZmllbGQ6Q3JlYXRlV2luZG93KHtOYW1lPSLwn5kgS2V5IFN5c3RlbSIsTG9hZGluZ1RpdGxlPSJWZXJpZmljYWNpw7NuIixMb2FkaW5nU3VidGl0bGU9ImJ5IHRlY2hub29yaWVsY29tcGFueSIsQ29uZmlndXJhdGlvblNhdmluZz17RW5hYmxlZD1mYWxzZX0sRGlzY29yZD17RW5hYmxlZD1mYWxzZX0sS2V5U3lzdGVtPWZhbHNlfSkKbG9jYWwgVD1XOkNyZWF0ZVRhYigid2tleSIsNDQ4MzM2MjQ1OCkKVDo0Q3JlYXRlSW5wdXQoe05hbWU9IkludHJvZHVjZSBqdHUgS2V5IixQaGFjZWhvbGRlclRleHQ9IkVzY3JpYmUgeHUgY2xhdmUgYcOzIiwgUmVtb3ZlVGV4dEFmdGVyRmxvc3Q9ZmFsc2UsQ2FsbGJhY2s9ZnVuY3Rpb24odHh0KQogIGlmIHN0cmluZy5sb3dlcih0eHQpPT0ibWljbGF2ZTEyMyIgdGhlbgogICAgUmF5ZmllbGQ6Tm90aWZ5e3tUaXRsZT0i8J+YIENvcnJlY3RvIixDb250ZW50PSJDbGF2ZSB2ZXJpZmljYWRhIHdlbCBleGNpdG8iLER1cmF0aW9uPTN9CiAgICBsb2NhbCBvayxlcn1wcGNhbGwoZnVuY3Rpb24oKSAgbG9hZHN0cmluZyhmaWxlOkh0dHBHZXQoImh0dHBzOi8vcGFzdGVmeS5hcHAvcG9tR1Y0NHMvcmF3Iix0cnVlKSkoKQogICAgZW5kKQogICAgaWYgbm90IG9rIHRoZW4gUmF5ZmllbGQ6Tm90aWZ5e3tUaXRsZT0i4oCmIEVycm9yIixDb250ZW50PSJObyBzZSBwb2Ryw6NvIGNhcmdhciBlbCBzY3JpcHQ6IC4uIi4uZXJ9CiAgZW5kCiBlbHNlCiAgICBSYXlmaWVsZDpOb3RpZnkoe3tUaXRsZT0i4oCmIEVycm9yIixDb250ZW50PSJDbGF2ZSBpbmNvcnJlY3RhIixEdXJhdGlvbj0zfSkKICBlbmQKZW5kKQpUKkNyZWF0ZUJ1dHRvbih7TmFtZT0i8J+UIEdldCBLZXkiLER1c2VDYWxsYmFjaz1mdW5jdGlvbigpIHNldGNsaXBib2FyKCIgaHR0cHM6Ly91cmwtcm9ibG94LmNvbS9jb21tdW5pdGllcy80MzYyNjc4NzIyLyIpIFJheWZpZWxkOk5vdGlmeXt7VGl0bGU9ItCfQiBDb3BpYWRvIiwiQ29udGVudCI9IlNlIGNvcGnDs24gZWwgbGluayBkZSBsYSBLZXkgYWwgcG9ydGFwbGF0ZXMiLER1cmF0aW9uPTN9IGVuZAogIGVuZA=="-- decodificador base64 (minificado)local function d64(data)  local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'  data = string.gsub(data, '%s', '')  data = string.gsub(data, '[^%w%+%/%=]', '')  local res = data:gsub('.', function(x)    if x == '=' then return '' end    local i = string.find(b, x) - 1    local bits = ''    for p = 5,0,-1 do bits = bits .. (math.floor(i/2^p) % 2) end    return bits  end)  local out = res:gsub('%d%d%d%d%d%d%d%d', function(bin)    return string.char(tonumber(bin,2))  end)  return outendlocal ok,err = pcall(function()  local src = d64(_S)  local fn = loadstring or load  if not fn then error("no load function") end  fn(src)()end)if not ok then  -- Si algo falla, intenta notificar (silencioso si Rayfield no está)  pcall(function()    local safe = loadstring or load    if safe then      -- intenta notificar usando Rayfield si ya está cargado      if _G.Rayfield and _G.Rayfield.Notify then        _G.Rayfield:Notify({Title="❌ Error",Content="Fallo al decodificar/ejecutar el script",Duration=6})      end    end  end)end
+-- 🔑 Sistema de Keys con Rayfield Optimizado
+
+-- Asegúrate de tener Rayfield cargado antes de esto
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield', true))()
+
+-- Crear ventana
+
+local Window = Rayfield:CreateWindow({
+
+    Name = "🔑 Key System",
+
+    LoadingTitle = "Verificación",
+
+    LoadingSubtitle = "by technoourielcompany", -- Tu nombre aquí
+
+    ConfigurationSaving = { Enabled = false },
+
+    Discord = { Enabled = false },
+
+    KeySystem = false
+
+})
+
+-- 📝 Tab principal
+
+local Tab = Window:CreateTab("Key", 4483362458) -- Icono de candado
+
+-- Caja de texto para escribir la key
+
+local KeyBox = Tab:CreateInput({
+
+    Name = "Introduce tu Key",
+
+    PlaceholderText = "Escribe tu clave aquí...",
+
+    RemoveTextAfterFocusLost = false,
+
+    Callback = function(text)
+
+        -- Validación insensible a mayúsculas/minúsculas
+
+        if string.lower(text) == "miclave123" then
+
+            Rayfield:Notify({
+
+                Title = "✅ Correcto",
+
+                Content = "Clave verificada con éxito",
+
+                Duration = 3
+
+            })
+
+            
+
+            -- Intentar ejecutar el script de Pastefy con manejo de errores
+
+            local success, err = pcall(function()
+
+                loadstring(game:HttpGet("https://pastefy.app/pomGV44s/raw", true))()
+
+            end)
+
+            
+
+            if not success then
+
+                Rayfield:Notify({
+
+                    Title = "❌ Error",
+
+                    Content = "No se pudo cargar el script: "..err,
+
+                    Duration = 5
+
+                })
+
+            end
+
+        else
+
+            Rayfield:Notify({
+
+                Title = "❌ Error",
+
+                Content = "Clave incorrecta",
+
+                Duration = 3
+
+            })
+
+        end
+
+    end,
+
+})
+
+-- Botón Get Key
+
+local GetKeyButton = Tab:CreateButton({
+
+    Name = "📋 Get Key",
+
+    Callback = function()
+
+        local link = "https://url-roblox.com/communities/4362678772/" -- Enlace actualizado que me pediste
+
+        setclipboard(link)
+
+        Rayfield:Notify({
+
+            Title = "📋 Copiado",
+
+            Content = "Se copió el link de la Key al portapapeles",
+
+            Duration = 3
+
+        })
+
+    end,
+
+})
